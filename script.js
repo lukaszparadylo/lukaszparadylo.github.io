@@ -1,4 +1,6 @@
 $(document).ready(function() {
+   //const apiRoot = 'http://localhost:8080/v1/task/';
+   //const trelloApiRoot = 'http://localhost:8080/v1/trello/';
    const apiRoot = 'https://floating-thicket-12070.herokuapp.com/v1/task/';
    const trelloApiRoot = 'https://floating-thicket-12070.herokuapp.com/v1/trello/';
    const datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
@@ -111,14 +113,21 @@ $(document).ready(function() {
       var requestUrl = apiRoot + 'deleteTask';
 
       $.ajax({
-         url: requestUrl + '/?' + $.param({
-            taskId: taskId
-         }),
+         url: requestUrl,
          method: 'DELETE',
-         success: function() {
-            parentEl.slideUp(400, function() { parentEl.remove(); });
-         }
+		 processData: false,
+         contentType: "application/json; charset=utf-8",
+         dataType: 'json',
+		 data: JSON.stringify({
+           id: taskId
+         }),
+		 complete: function(data) {
+           if (data.status === 200) {
+              getAllTasks();
+           }
+        }
       })
+
    }
 
    function handleTaskSubmitRequest(event) {
@@ -205,4 +214,3 @@ $(document).ready(function() {
    $tasksContainer.on('click','[data-task-edit-abort-button]', toggleEditingState);
    $tasksContainer.on('click','[data-task-submit-update-button]', handleTaskUpdateRequest);
    $tasksContainer.on('click','[data-task-delete-button]', handleTaskDeleteRequest);
-});
