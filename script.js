@@ -207,7 +207,7 @@ $(document).ready(function() {
    }
 
    $('[data-task-add-form]').on('submit', handleTaskSubmitRequest);
-
+	///////////////////////////
    $tasksContainer.on('change','[data-board-name-select]', handleBoardNameSelect);
    $tasksContainer.on('click','[data-trello-card-creation-trigger]', handleCardCreationRequest);
    $tasksContainer.on('click','[data-task-edit-button]', toggleEditingState);
